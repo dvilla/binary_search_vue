@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Binary tree</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" /> -->
+</head>
+<body>
+    <h1>Binary search</h1>
+    <div id="app">
+        <form id='my_form' action="javascript:myFunction() false;">
+            <label for="array">Array length</label>
+            <input id="array" type="text" v-model="arraySize" value="submit">
+            <button v-on:click="addSizeToArray" type="submit">Create array</button>
+        </form><br><br>
+        <span>{{ array }}</span><br><br><br>
+        <label for="search-for">Search for:</label>
+        <input v-model="searchFor" id="search-for" type="text">
+        <button v-on:click="binarySearch" type="submit">Search</button><br><br>
+        <span v-if=isNumberThere>Yes number {{ searchFor}} is in the array</span>
+        <span>It took <b>{{ actionsPerformed }}</b> action to find that number</span>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+    var app = new Vue({
+            el: '#app',
+            data: {
+                array: [],
+                arraySize: "",
+                searchFor: "",
+                actionsPerformed: 0,
+                isNumberThere: false
+            },
+            methods: {
+                addSizeToArray: function(){
+                    this.array = Array.apply(null, Array(Number(this.arraySize))).map(function (_, i) {return i;});
+                },
+                binarySearch: function(numberToSearchFor, array){
+                    this.actionsPerformed += 1
+                    array = this.array
+                    pivot = Math.floor(array.length / 2)
+                    if (numberToSearchFor > array.slice(-1).pop() || numberToSearchFor < array[0]){
+                        return false
+                    }
+                    if (numberToSearchFor === array[pivot]){
+                        this.isNumberThere = true
+                        return True;
+                    }
+                    if (numberToSearchFor < array[pivot]){
+                        return binarySearch(numberToSearchFor, array.slice(pivot));
+                    }
+                    if (numberToSearchFor > array[pivot]){
+                        return binarySearch(numberToSearchFor, array.slice(0, (pivot-1)));
+                    } 
+                }    
+            }
+        })
+    </script>
+</html>
