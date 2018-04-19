@@ -17,9 +17,9 @@
         </form><br><br>
         <span>{{ array }}</span><br><br><br>
         <label for="search-for">Search for:</label>
-        <input v-model="searchFor" id="search-for" type="text">
+        <input v-model="numberToSearchFor" id="search-for" type="text">
         <button v-on:click="binarySearch" type="submit">Search</button><br><br>
-        <span v-if=isNumberThere>Yes number {{ searchFor}} is in the array</span>
+        <span v-if=isNumberThere><b>Yes</b> number {{ numberToSearchFor }} is in the array</span><br><br>
         <span>It took <b>{{ actionsPerformed }}</b> action to find that number</span>
     </div>
 </body>
@@ -30,7 +30,7 @@
             data: {
                 array: [],
                 arraySize: "",
-                searchFor: "",
+                numberToSearchFor: "",
                 actionsPerformed: 0,
                 isNumberThere: false
             },
@@ -38,22 +38,25 @@
                 addSizeToArray: function(){
                     this.array = Array.apply(null, Array(Number(this.arraySize))).map(function (_, i) {return i;});
                 },
-                binarySearch: function(numberToSearchFor, array){
+                binarySearch: function(){
+                    numberToSearchFor = Number(this.numberToSearchFor)
                     this.actionsPerformed += 1
                     array = this.array
                     pivot = Math.floor(array.length / 2)
                     if (numberToSearchFor > array.slice(-1).pop() || numberToSearchFor < array[0]){
-                        return false
+                        return false;
                     }
                     if (numberToSearchFor === array[pivot]){
                         this.isNumberThere = true
-                        return True;
+                        return true;
                     }
                     if (numberToSearchFor < array[pivot]){
-                        return binarySearch(numberToSearchFor, array.slice(pivot));
+                        array.splice(pivot)
+                        //return binarySearch(numberToSearchFor, array.slice(pivot-1));
                     }
                     if (numberToSearchFor > array[pivot]){
-                        return binarySearch(numberToSearchFor, array.slice(0, (pivot-1)));
+                        array.splice(0, (pivot+1))
+                        //return binarySearch(numberToSearchFor, array.slice(0, (pivot-1)));
                     } 
                 }    
             }
