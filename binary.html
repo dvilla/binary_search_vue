@@ -11,7 +11,7 @@
     <h1>Binary search</h1>
     <div id="app">
         <form id='my_form' action="javascript:myFunction() false;">
-            <label for="array">Array length</label>
+            <label for="array">Sorted Array length</label>
             <input id="array" type="text" v-model="arraySize" value="submit">
             <button v-on:click="addSizeToArray" type="submit">Create array</button>
         </form><br><br>
@@ -19,7 +19,8 @@
         <label for="search-for">Search for:</label>
         <input v-model="numberToSearchFor" id="search-for" type="text">
         <button v-on:click="binarySearch" type="submit">Search</button><br><br>
-        <span v-if=isNumberThere><b>Yes</b> number {{ numberToSearchFor }} is in the array</span><br><br>
+        <span v-if=numberNotInarray>Number {{ numberToSearchFor }} is <b>NOT</b>in the array</span><br><br>
+        <span v-if=isNumberThere><b>Yes</b>, number {{ numberToSearchFor }} is in the array</span><br><br>
         <span>It took <b>{{ actionsPerformed }}</b> action to find that number</span>
     </div>
 </body>
@@ -32,18 +33,25 @@
                 arraySize: "",
                 numberToSearchFor: "",
                 actionsPerformed: 0,
-                isNumberThere: false
+                isNumberThere: false,
+                numberNotInarray: false
             },
             methods: {
                 addSizeToArray: function(){
+                    this.numberNotInarray = false;
+                    this.actionsPerformed = 0;
+                    this.isNumberThere = false;
                     this.array = Array.apply(null, Array(Number(this.arraySize))).map(function (_, i) {return i;});
                 },
                 binarySearch: function(){
                     numberToSearchFor = Number(this.numberToSearchFor)
-                    this.actionsPerformed += 1
+                    if (!this.isNumberThere && this.numberNotInarray == false){
+                        this.actionsPerformed += 1;
+                    }
                     array = this.array
                     pivot = Math.floor(array.length / 2)
                     if (numberToSearchFor > array.slice(-1).pop() || numberToSearchFor < array[0]){
+                        this.numberNotInarray = true;
                         return false;
                     }
                     if (numberToSearchFor === array[pivot]){
@@ -52,11 +60,11 @@
                     }
                     if (numberToSearchFor < array[pivot]){
                         array.splice(pivot)
-                        //return binarySearch(numberToSearchFor, array.slice(pivot-1));
+                        //return this.binarySearch(numberToSearchFor, array.slice(pivot-1));
                     }
                     if (numberToSearchFor > array[pivot]){
                         array.splice(0, (pivot+1))
-                        //return binarySearch(numberToSearchFor, array.slice(0, (pivot-1)));
+                        //return this.binarySearch(numberToSearchFor, array.slice(0, (pivot-1)));
                     } 
                 }    
             }
