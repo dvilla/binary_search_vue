@@ -11,13 +11,13 @@
     <h1>Binary search</h1>
     <div id="app">
         <form id='my_form' action="javascript:myFunction() false;">
-            <label for="array">Sorted Array length</label>
-            <input id="array" type="text" v-model="arraySize" value="submit">
+            <label for="array">Sorted Array size</label>
+            <input id="array" type="number" v-model.number="arraySize" value="submit">
             <button @click="addSizeToArray" type="submit">Create array</button>
         </form><br><br>
         <span>{{ array }}</span><br><br><br>
         <label for="search-for">Search for:</label>
-        <input v-model="numberToSearchFor" id="search-for" type="text">
+        <input type="number" v-model.number="numberToSearchFor" id="search-for">
         <button @click="binarySearch" type="submit">Search</button><br><br>
         <span v-if=numberNotInarray>Number {{ numberToSearchFor }} is <b>NOT</b>in the array</span><br><br>
         <span v-if=isNumberThere><b>Yes</b>, number {{ numberToSearchFor }} is in the array</span><br><br>
@@ -41,10 +41,10 @@
                     this.numberNotInarray = false;
                     this.actionsPerformed = 0;
                     this.isNumberThere = false;
-                    this.array = Array.apply(null, Array(Number(this.arraySize))).map(function (_, i) {return i;});
+                    this.array = Array.apply(null, Array(this.arraySize)).map(function (_, i) {return i;});
                 },
                 binarySearch: function(){
-                    numberToSearchFor = Number(this.numberToSearchFor)
+                    numberToSearchFor = this.numberToSearchFor;
                     if (!this.isNumberThere && this.numberNotInarray == false){
                         this.actionsPerformed += 1;
                     }
