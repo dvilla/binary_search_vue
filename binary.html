@@ -13,12 +13,12 @@
         <form id='my_form' action="javascript:myFunction() false;">
             <label for="array">Sorted Array length</label>
             <input id="array" type="text" v-model="arraySize" value="submit">
-            <button v-on:click="addSizeToArray" type="submit">Create array</button>
+            <button @click="addSizeToArray" type="submit">Create array</button>
         </form><br><br>
         <span>{{ array }}</span><br><br><br>
         <label for="search-for">Search for:</label>
         <input v-model="numberToSearchFor" id="search-for" type="text">
-        <button v-on:click="binarySearch" type="submit">Search</button><br><br>
+        <button @click="binarySearch" type="submit">Search</button><br><br>
         <span v-if=numberNotInarray>Number {{ numberToSearchFor }} is <b>NOT</b>in the array</span><br><br>
         <span v-if=isNumberThere><b>Yes</b>, number {{ numberToSearchFor }} is in the array</span><br><br>
         <span>It took <b>{{ actionsPerformed }}</b> action to find that number</span>
